@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ID Card Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .loader {
+            border-top-color: #ffffff;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: spinner 0.6s linear infinite;
+        }
+
+        @keyframes spinner {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Custom Radio Button Styling */
+        .card-option:checked+label {
+            border-color: #285376;
+            background-color: #285376;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(40, 83, 118, 0.3);
+        }
+
+        .card-option:disabled+label {
+            opacity: 0.4;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        input,
+        select {
+            font-size: 16px !important;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="formContainer"
+        class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md border-t-8 border-[#285376]">
+        <div class="flex justify-center mb-6">
+            <img src="https://lh3.googleusercontent.com/d/1zuH6Bs5Dd6UvsSslI8qHyTStJCTOuGQT" alt="Logo"
+                class="h-14 w-auto object-contain">
+        </div>
+
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 tracking-tight">ID Card Registration</h2>
+            <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider font-semibold">Employee Details Collection
+                Portal</p>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Select ID Card
+                    Type</label>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <input type="radio" name="cardType" id="regular" value="Regular" class="card-option hidden"
+                            checked>
+                        <label for="regular"
+                            class="block text-center py-2.5 border-2 border-gray-100 rounded-xl cursor-pointer text-[11px] font-bold text-gray-400 transition-all">Regular</label>
+                    </div>
+                    <div class="flex-1">
+                        <input type="radio" name="cardType" id="platinum" value="Platinum" class="card-option hidden">
+                        <label for="platinum"
+                            class="block text-center py-2.5 border-2 border-gray-100 rounded-xl cursor-pointer text-[11px] font-bold text-gray-400 transition-all">Platinum</label>
+                    </div>
+                    <div class="flex-1">
+                        <input type="radio" name="cardType" id="lost" value="Lost-reapply" class="card-option hidden">
+                        <label for="lost"
+                            class="block text-center py-2.5 border-2 border-gray-100 rounded-xl cursor-pointer text-[11px] font-bold text-gray-400 transition-all leading-tight">Lost-Reapply</label>
+                    </div>
+                </div>
+                <p id="regularNote" class="hidden mt-2 text-[11px] text-amber-700 bg-amber-50 border border-amber-100 rounded-lg p-2">
+                    You already have an existing card, you must choose Lost-Reapply.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Full Name</label>
+                    <input type="text" id="name"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none transition-all"
+                        placeholder="Enter full name">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Employee ID</label>
+                        <input type="text" id="empId" maxlength="5" inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none"
+                            placeholder="12345">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Blood Group</label>
+                        <select id="bloodGroup"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none">
+                            <option value="">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="Alien blood">Alien blood</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Gender</label>
+                        <select id="gender"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none">
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                        <input type="text" id="customGender" maxlength="30"
+                            class="hidden mt-2 w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none"
+                            placeholder="Type your gender">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Your Contact
+                            Number</label>
+                        <input type="text" id="contactNumber" maxlength="10" inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none"
+                            placeholder="9876543210">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Emergency Contact
+                        Number</label>
+                    <input type="text" id="emergencyContact" maxlength="10" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none"
+                        placeholder="9876543210">
+                </div>
+
+                <!-- Platinum-specific fields -->
+                <div id="platinumFields" class="hidden space-y-4 p-4 bg-[#285376]/5 rounded-xl border-2 border-[#285376]/20">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1 ml-1">Vehicle
+                            Type</label>
+                        <select id="vehicleType"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 focus:ring-2 focus:ring-[#285376] focus:bg-white outline-none">
+                            <option value="None">None</option>
+                            <option value="2 Wheeler">2 Wheeler</option>
+                            <option value="4 Wheeler">4 Wheeler</option>
+                        </select>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">Upload RC
+                            (Optional)</label>
+                        <input type="file" id="rcUpload" accept="image/png, image/jpeg, application/pdf"
+                            class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-[#285376] file:text-white hover:file:bg-[#1e3e59] cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">Passport Photo</label>
+                <ul class="text-[11px] text-gray-500 mb-3 ml-4 list-disc space-y-0.5">
+                    <li>Click the photo in front of a <b>plain wall</b> (white or light colour)</li>
+                    <li>Crop it like a passport-size photo: head &amp; shoulders only, looking straight at the camera</li>
+                    <li>Camera at eye level: don't look up or down, keep your head straight</li>
+                    <li>Eyes open, mouth closed, good lighting, no sunglasses</li>
+                    <li>No full-body, group, selfie-from-below or screenshot photos</li>
+                </ul>
+                <p class="text-[11px] text-[#285376] bg-[#285376]/5 rounded-lg p-2 mb-3">
+                    <b>No plain background?</b> Search Google for <b>"background remover"</b>, upload your photo
+                    on any of those websites, download the result and upload it here.
+                </p>
+                <input type="file" id="photo" accept="image/png, image/jpeg"
+                    class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-[#285376] file:text-white hover:file:bg-[#1e3e59] cursor-pointer">
+                <div id="photoPreview" class="hidden mt-4 flex items-center gap-4">
+                    <img id="photoPreviewImg" alt="Cropped photo preview"
+                        class="w-24 h-24 rounded-lg object-cover border border-gray-200 bg-white">
+                    <p id="photoStatus" class="text-[11px] font-medium"></p>
+                </div>
+                <p id="photoChecking" class="hidden mt-3 text-[11px] text-gray-500 font-medium">Checking photo…</p>
+            </div>
+
+            <p id="errorMsg"
+                class="bg-red-50 text-red-600 text-[11px] p-3 rounded-lg hidden border border-red-100 text-center font-medium">
+            </p>
+
+            <button onclick="processUpload()" id="submitBtn"
+                class="w-full bg-[#285376] text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-none transition-all active:scale-95 flex justify-center items-center">
+                <span>Submit Registration</span>
+            </button>
+
+            <p class="text-center text-[11px] text-gray-500">
+                For any queries, contact <b>Narendra Sharma</b> or <b>Arsh Khera</b>.
+            </p>
+
+            <!-- Watermark -->
+            <div class="text-center mt-4 text-[16px] text-gray-400 opacity-60">
+                developed in Astra by Arsh
+            </div>
+        </div>
+    </div>
+
+    <div id="successContainer"
+        class="hidden bg-white p-10 rounded-2xl shadow-xl w-full max-w-md text-center border-t-8 border-green-500">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-green-50 rounded-full mb-6">
+            <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">Submission Successful</h2>
+        <p class="text-gray-500 mt-2">Your ID card details have been uploaded.</p>
+        <p id="successContact" class="text-gray-600 text-sm mt-4 bg-gray-50 rounded-lg p-3"></p>
+        <button onclick="location.reload()"
+            class="mt-8 w-full py-3 border-2 border-gray-200 rounded-xl text-gray-600 font-bold hover:bg-gray-50 transition-all">Add
+            Another Candidate</button>
+    </div>
+
+
+    <script>
+        const REGULAR_MIN_EMP_ID = 17500; // Employee IDs below this can't choose a Regular card
+
+        // Show/hide platinum fields based on card type selection
+        function updatePlatinumFields() {
+            const isPlatinum = document.querySelector('input[name="cardType"]:checked').value === 'Platinum';
+            document.getElementById('platinumFields').classList.toggle('hidden', !isPlatinum);
+        }
+        document.querySelectorAll('input[name="cardType"]').forEach(radio => {
+            radio.addEventListener('change', updatePlatinumFields);
+        });
+
+        // Custom gender: show a text box to type it in
+        document.getElementById('gender').addEventListener('change', function () {
+            const custom = document.getElementById('customGender');
+            custom.classList.toggle('hidden', this.value !== 'Custom');
+            if (this.value === 'Custom') custom.focus();
+        });
+
+        // Older employees (ID below 17500) already have a card, so Regular is blocked and switched to Lost-Reapply
+        function isRegularBlocked(empId) {
+            return empId.length === 5 && Number(empId) < REGULAR_MIN_EMP_ID;
+        }
+        document.getElementById('empId').addEventListener('input', function () {
+            const regular = document.getElementById('regular');
+            const blocked = isRegularBlocked(this.value);
+            regular.disabled = blocked;
+            document.getElementById('regularNote').classList.toggle('hidden', !blocked);
+            if (blocked && regular.checked) {
+                document.getElementById('lost').checked = true;
+                updatePlatinumFields();
+            }
+        });
+
+        // --- PHOTO VALIDATION CONFIG ---
+        // Head angles come from MediaPipe's 3D face pose. Straight-on passport photos measure roughly
+        // pitch 0 to +12 and yaw/roll within a few degrees. Positive pitch = head down / camera above the face.
+        // Limits are deliberately lenient so normal phone photos pass; only clearly bad photos are rejected.
+        const OUTPUT_SIZE = 600;             // Uploaded photo is always 600x600 JPEG
+        const MIN_PITCH_DEG = -15;           // Below this: chin up / camera held below the face
+        const MAX_PITCH_DEG = 20;            // Above this: head down / camera held above the face
+        const MAX_YAW_DEG = 18;              // Head turned left or right
+        const MAX_ROLL_DEG = 15;             // Head tilted sideways (smaller tilts are straightened automatically)
+        const MIN_FACE_HEIGHT_RATIO = 0.20;  // Forehead-to-chin vs photo height (blocks full-body / half-body shots)
+        const MIN_FACE_HEIGHT_PX = 150;      // Forehead-to-chin in pixels (blocks low-resolution photos)
+        const MAX_EYE_CLOSED = 0.65;         // Blink score above this = eyes closed
+        const MAX_MOUTH_OPEN = 0.50;         // Jaw-open score above this = mouth open
+        const MIN_BRIGHTNESS = 55;           // Mean face brightness (0-255)
+        const MAX_BRIGHTNESS = 215;
+        const MIN_SHARPNESS = 15;            // Detail level of the face; lower = blurry
+        const MIN_EYE_VISIBILITY = 0.20;     // Eye-area vs cheek brightness; lower = eyes hidden (sunglasses)
+        const CROP_TO_FACE_RATIO = 2.2;      // Crop side = forehead-to-chin x this (passport framing)
+        const MAX_BG_EDGES = 0.12;           // Fraction of background pixels that are edges/texture; higher = cluttered
+        const MAX_BG_COLOR_SPREAD = 45;      // Colour variation across the background; higher = not one plain colour
+        // -------------------------------
+
+        // MediaPipe face mesh landmark indices
+        const LM = { forehead: 10, chin: 152, rightEdge: 234, leftEdge: 454, rightEyeOuter: 33, leftEyeOuter: 263,
+                     rightIris: 468, leftIris: 473, rightCheek: 205, leftCheek: 425 };
+
+        const MEDIAPIPE_VERSION = "0.10.14";
+        let modelsPromise = null;
+
+        // Loads the face landmarker (pose, eyes, mouth) and the person segmenter (background check)
+        function getModels() {
+            if (!modelsPromise) {
+                modelsPromise = (async () => {
+                    const base = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MEDIAPIPE_VERSION}`;
+                    const { FaceLandmarker, ImageSegmenter, FilesetResolver } = await import(`${base}/vision_bundle.mjs`);
+                    const vision = await FilesetResolver.forVisionTasks(`${base}/wasm`);
+                    const [landmarker, segmenter] = await Promise.all([
+                        FaceLandmarker.createFromOptions(vision, {
+                            baseOptions: {
+                                modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+                                delegate: "CPU"
+                            },
+                            runningMode: "IMAGE",
+                            numFaces: 2,
+                            minFaceDetectionConfidence: 0.6,
+                            outputFaceBlendshapes: true,
+                            outputFacialTransformationMatrixes: true
+                        }),
+                        ImageSegmenter.createFromOptions(vision, {
+                            baseOptions: {
+                                modelAssetPath: "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite",
+                                delegate: "CPU"
+                            },
+                            runningMode: "IMAGE",
+                            outputConfidenceMasks: true,
+                            outputCategoryMask: false
+                        })
+                    ]);
+                    return { landmarker, segmenter };
+                })();
+                modelsPromise.catch(() => { modelsPromise = null; }); // allow retry
+            }
+            return modelsPromise;
+        }
+        getModels(); // start loading the models in the background
+
+        function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const url = URL.createObjectURL(file);
+                const img = new Image();
+                img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+                img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not read this image file.")); };
+                img.src = url;
+            });
+        }
+
+        const toDeg = rad => rad * 180 / Math.PI;
+
+        // Grayscale helpers over the 600x600 luminance array
+        function regionMean(gray, x0, y0, x1, y1) {
+            x0 = Math.max(0, Math.round(x0)); y0 = Math.max(0, Math.round(y0));
+            x1 = Math.min(OUTPUT_SIZE, Math.round(x1)); y1 = Math.min(OUTPUT_SIZE, Math.round(y1));
+            let sum = 0, n = 0;
+            for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) { sum += gray[y * OUTPUT_SIZE + x]; n++; }
+            return n ? sum / n : 0;
+        }
+
+        function laplacianVariance(gray, x0, y0, x1, y1) {
+            const S = OUTPUT_SIZE;
+            x0 = Math.max(1, Math.round(x0)); y0 = Math.max(1, Math.round(y0));
+            x1 = Math.min(S - 1, Math.round(x1)); y1 = Math.min(S - 1, Math.round(y1));
+            let sum = 0, sumSq = 0, n = 0;
+            for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+                const i = y * S + x;
+                const v = gray[i - 1] + gray[i + 1] + gray[i - S] + gray[i + S] - 4 * gray[i];
+                sum += v; sumSq += v * v; n++;
+            }
+            return n ? sumSq / n - (sum / n) ** 2 : 0;
+        }
+
+        // Measures how plain the background of the 600x600 crop is. The person is segmented out, then the
+        // remaining pixels are checked for texture (fraction of edge pixels) and colour variation.
+        // Works on a coarse 4x4-block grid so camera noise and smooth lighting gradients on a wall don't count.
+        function measureBackground(segmenter, canvas, rgba) {
+            const seg = segmenter.segment(canvas);
+            const mask = seg.confidenceMasks[0];
+            const person = mask.getAsFloat32Array().slice();
+            const mw = mask.width, mh = mask.height;
+            seg.close();
+
+            const B = 4, G = OUTPUT_SIZE / B; // block size, grid size
+            const lum = new Float32Array(G * G), red = new Float32Array(G * G), grn = new Float32Array(G * G), blu = new Float32Array(G * G);
+            const isBg = new Uint8Array(G * G);
+            for (let gy = 0; gy < G; gy++) for (let gx = 0; gx < G; gx++) {
+                let r = 0, g = 0, b = 0;
+                for (let y = gy * B; y < gy * B + B; y++) for (let x = gx * B; x < gx * B + B; x++) {
+                    const i = (y * OUTPUT_SIZE + x) * 4;
+                    r += rgba[i]; g += rgba[i + 1]; b += rgba[i + 2];
+                }
+                const k = gy * G + gx, n = B * B;
+                red[k] = r / n; grn[k] = g / n; blu[k] = b / n;
+                lum[k] = 0.299 * red[k] + 0.587 * grn[k] + 0.114 * blu[k];
+                const mx = Math.min(mw - 1, Math.floor((gx + 0.5) * B * mw / OUTPUT_SIZE));
+                const my = Math.min(mh - 1, Math.floor((gy + 0.5) * B * mh / OUTPUT_SIZE));
+                isBg[k] = person[my * mw + mx] < 0.1 ? 1 : 0;
+            }
+
+            // Only use blocks well away from the person (all neighbours within 2 blocks are background too)
+            let n = 0, edges = 0, sR = 0, sG = 0, sB = 0, qR = 0, qG = 0, qB = 0;
+            for (let gy = 2; gy < G - 2; gy++) for (let gx = 2; gx < G - 2; gx++) {
+                let clear = true;
+                for (let dy = -2; dy <= 2 && clear; dy++) for (let dx = -2; dx <= 2; dx++) {
+                    if (!isBg[(gy + dy) * G + gx + dx]) { clear = false; break; }
+                }
+                if (!clear) continue;
+                const k = gy * G + gx;
+                const grad = Math.abs(lum[k + 1] - lum[k - 1]) + Math.abs(lum[k + G] - lum[k - G]);
+                if (grad > 10) edges++;
+                sR += red[k]; sG += grn[k]; sB += blu[k];
+                qR += red[k] * red[k]; qG += grn[k] * grn[k]; qB += blu[k] * blu[k];
+                n++;
+            }
+            if (n < G * G * 0.03) return null; // too little background visible to judge
+            const variance = (s, q) => q / n - (s / n) ** 2;
+            return {
+                bgEdges: edges / n,
+                bgColorSpread: Math.sqrt((variance(sR, qR) + variance(sG, qG) + variance(sB, qB)) / 3)
+            };
+        }
+
+        // Runs every passport-photo check on a source canvas. Returns { problem, metrics, canvas }:
+        // problem is a user-facing message (null if the photo is OK), canvas is the 600x600 crop.
+        async function analyzePhoto(src) {
+            const W = src.width, H = src.height;
+
+            let landmarker, segmenter;
+            try {
+                ({ landmarker, segmenter } = await getModels());
+            } catch (e) {
+                return { problem: "Face check could not load. Please check your connection and refresh the page." };
+            }
+
+            const result = landmarker.detect(src);
+            if (result.faceLandmarks.length === 0) {
+                return { problem: "No clear face found. Upload a close-up, front-facing photo of your face (not full-body, sideways or a screenshot)." };
+            }
+            if (result.faceLandmarks.length > 1) {
+                return { problem: "More than one face found. Upload a photo of only yourself." };
+            }
+
+            const pts = result.faceLandmarks[0].map(p => ({ x: p.x * W, y: p.y * H }));
+            const pt = name => pts[LM[name]];
+            const scores = {};
+            result.faceBlendshapes[0].categories.forEach(c => { scores[c.categoryName] = c.score; });
+
+            // Head pose from the 4x4 face transform (column-major)
+            const m = result.facialTransformationMatrixes[0].data;
+            const r = (row, col) => m[col * 4 + row];
+            const pitch = toDeg(Math.atan2(r(2, 1), r(2, 2)));
+            const yaw = toDeg(Math.asin(-r(2, 0)));
+            const rollRad = Math.atan2(pt('leftEyeOuter').y - pt('rightEyeOuter').y, pt('leftEyeOuter').x - pt('rightEyeOuter').x);
+            const roll = toDeg(rollRad);
+
+            const faceH = Math.hypot(pt('chin').x - pt('forehead').x, pt('chin').y - pt('forehead').y);
+            const metrics = { pitch, yaw, roll, faceH, faceRatio: faceH / H,
+                              eyesClosed: Math.max(scores.eyeBlinkLeft, scores.eyeBlinkRight), mouthOpen: scores.jawOpen };
+            const fail = problem => ({ problem, metrics });
+
+            if (Math.abs(roll) > 45) return fail("Photo is sideways or upside down. Upload an upright photo.");
+            if (metrics.faceRatio < MIN_FACE_HEIGHT_RATIO) return fail("Face is too small in the photo. Upload a passport-style photo showing only your head and shoulders, not your full body.");
+            if (faceH < MIN_FACE_HEIGHT_PX) return fail("Photo resolution is too low. Upload the original photo from your camera, not a screenshot or a downloaded copy.");
+            if (pt('forehead').y - 0.3 * faceH < 0 || pt('chin').y + 0.1 * faceH > H ||
+                pt('rightEdge').x < 0 || pt('leftEdge').x > W) {
+                return fail("Part of your head is cut off. Keep your whole head and shoulders inside the photo.");
+            }
+            if (Math.abs(yaw) > MAX_YAW_DEG) return fail("Your face is turned to the side. Look straight into the camera.");
+            if (pitch < MIN_PITCH_DEG) return fail("Your chin is raised or the camera is below your face. Hold the camera at eye level and look straight ahead.");
+            if (pitch > MAX_PITCH_DEG) return fail("Your head is tilted down or the camera is above your face. Hold the camera at eye level and look straight ahead.");
+            if (Math.abs(roll) > MAX_ROLL_DEG) return fail("Your head is tilted to one side. Keep your head straight.");
+
+            // Square passport crop centred on the face, straightened so the eyes are level.
+            // ext = how much wider the rotated square's footprint is, so it never runs past the photo edge.
+            const ext = Math.abs(Math.cos(rollRad)) + Math.abs(Math.sin(rollRad));
+            const side = Math.min(faceH * CROP_TO_FACE_RATIO, W / ext, H / ext);
+            if (side < faceH * 1.35) return fail("Camera is too close. Hold it a little further away so your head and shoulders fit.");
+            const half = side * ext / 2;
+            const cx = Math.min(Math.max((pt('forehead').x + pt('chin').x) / 2, half), W - half);
+            const cy = Math.min(Math.max((pt('forehead').y + pt('chin').y) / 2, half), H - half);
+            const scale = OUTPUT_SIZE / side;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = OUTPUT_SIZE;
+            canvas.height = OUTPUT_SIZE;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.imageSmoothingQuality = 'high';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, OUTPUT_SIZE, OUTPUT_SIZE);
+            ctx.translate(OUTPUT_SIZE / 2, OUTPUT_SIZE / 2);
+            ctx.scale(scale, scale);
+            ctx.rotate(-rollRad);
+            ctx.translate(-cx, -cy);
+            ctx.drawImage(src, 0, 0);
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+            // Image quality checks on the cropped face
+            const cos = Math.cos(-rollRad), sin = Math.sin(-rollRad);
+            const toOut = p => ({
+                x: OUTPUT_SIZE / 2 + scale * ((p.x - cx) * cos - (p.y - cy) * sin),
+                y: OUTPUT_SIZE / 2 + scale * ((p.x - cx) * sin + (p.y - cy) * cos)
+            });
+            const rgba = ctx.getImageData(0, 0, OUTPUT_SIZE, OUTPUT_SIZE).data;
+            const gray = new Float32Array(OUTPUT_SIZE * OUTPUT_SIZE);
+            for (let i = 0; i < gray.length; i++) gray[i] = 0.299 * rgba[i * 4] + 0.587 * rgba[i * 4 + 1] + 0.114 * rgba[i * 4 + 2];
+
+            const top = toOut(pt('forehead')).y, bottom = toOut(pt('chin')).y;
+            const left = toOut(pt('rightEdge')).x, right = toOut(pt('leftEdge')).x;
+            const inset = 0.15 * (right - left);
+            const patch = 0.06 * (bottom - top);
+            const around = p => { const q = toOut(p); return regionMean(gray, q.x - patch, q.y - patch, q.x + patch, q.y + patch); };
+
+            metrics.brightness = regionMean(gray, left + inset, top, right - inset, bottom);
+            metrics.sharpness = laplacianVariance(gray, left + inset, top, right - inset, bottom);
+            metrics.eyeVisibility = (around(pt('rightIris')) + around(pt('leftIris'))) /
+                                    ((around(pt('rightCheek')) + around(pt('leftCheek'))) || 1);
+
+            if (metrics.brightness < MIN_BRIGHTNESS) return fail("Photo is too dark. Take it in good, even lighting.");
+            if (metrics.brightness > MAX_BRIGHTNESS) return fail("Photo is overexposed (too bright). Avoid direct flash or strong light on your face.");
+            if (metrics.eyeVisibility < MIN_EYE_VISIBILITY) return fail("Your eyes are not clearly visible. Remove sunglasses or anything covering your eyes.");
+            if (metrics.eyesClosed > MAX_EYE_CLOSED) return fail("Your eyes appear closed. Keep your eyes open and look at the camera.");
+            if (metrics.mouthOpen > MAX_MOUTH_OPEN) return fail("Keep your mouth closed with a neutral expression.");
+            if (metrics.sharpness < MIN_SHARPNESS) return fail("Photo is blurry. Hold the camera steady and make sure your face is in focus.");
+
+            const bg = measureBackground(segmenter, canvas, rgba);
+            if (bg) {
+                Object.assign(metrics, bg);
+                if (bg.bgEdges > MAX_BG_EDGES || bg.bgColorSpread > MAX_BG_COLOR_SPREAD) {
+                    return fail("Background is not plain. Click your photo in front of a plain wall. No plain wall? Search Google for \"background remover\", upload your photo on any of those websites, download the result and upload it here.");
+                }
+            }
+
+            return { problem: null, metrics, canvas };
+        }
+
+        // Validates the photo and returns a 600x600 JPEG data URL. Throws an Error with a user-facing message if unsuitable.
+        async function processPhoto(file) {
+            const img = await loadImage(file);
+            // Draw to a canvas so EXIF orientation is applied and coordinates are in real pixels.
+            // White fill first: background-remover sites give transparent PNGs, which should become a white background.
+            const src = document.createElement('canvas');
+            src.width = img.naturalWidth;
+            src.height = img.naturalHeight;
+            const sctx = src.getContext('2d');
+            sctx.fillStyle = '#ffffff';
+            sctx.fillRect(0, 0, src.width, src.height);
+            sctx.drawImage(img, 0, 0);
+
+            const { problem, canvas } = await analyzePhoto(src);
+            if (problem) throw new Error(problem);
+            return canvas.toDataURL('image/jpeg', 0.92);
+        }
+
+        let photoCheck = null; // Promise<dataURL> for the currently selected photo
+        let photoCheckId = 0;
+
+        document.getElementById('photo').addEventListener('change', function () {
+            const file = this.files[0];
+            const preview = document.getElementById('photoPreview');
+            const previewImg = document.getElementById('photoPreviewImg');
+            const status = document.getElementById('photoStatus');
+            const checking = document.getElementById('photoChecking');
+            const id = ++photoCheckId;
+
+            preview.classList.add('hidden');
+            document.getElementById('errorMsg').classList.add('hidden');
+            if (!file) { photoCheck = null; checking.classList.add('hidden'); return; }
+
+            checking.classList.remove('hidden');
+            photoCheck = processPhoto(file);
+            photoCheck.then(dataUrl => {
+                if (id !== photoCheckId) return;
+                previewImg.src = dataUrl;
+                status.className = 'text-[11px] font-medium text-green-600';
+                status.innerText = '✓ Face detected. This cropped photo will be used for your ID card.';
+                preview.classList.remove('hidden');
+            }).catch(err => {
+                if (id !== photoCheckId) return;
+                showError(err.message);
+            }).finally(() => {
+                if (id === photoCheckId) checking.classList.add('hidden');
+            });
+        });
+
+        let loadingInterval; // Global variable to track the loading animation
+
+        async function processUpload() {
+            const name = document.getElementById('name').value.trim();
+            const empId = document.getElementById('empId').value.trim();
+            const cardType = document.querySelector('input[name="cardType"]:checked').value;
+            const bloodGroup = document.getElementById('bloodGroup').value;
+            const emergencyContact = document.getElementById('emergencyContact').value.trim();
+            const genderChoice = document.getElementById('gender').value;
+            const gender = genderChoice === 'Custom' ? document.getElementById('customGender').value.trim() : genderChoice;
+            const contactNumber = document.getElementById('contactNumber').value.trim();
+            const fileInput = document.getElementById('photo');
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMsg = document.getElementById('errorMsg');
+
+            errorMsg.classList.add('hidden');
+
+            if (!name || !empId || !bloodGroup || !gender || !contactNumber || !emergencyContact || !fileInput.files[0]) {
+                showError("Please fill in all fields."); return;
+            }
+            if (empId.length !== 5) { showError("Employee ID must be 5 digits."); return; }
+            if (cardType === 'Regular' && isRegularBlocked(empId)) {
+                showError("You already have an existing card, you must choose Lost-Reapply."); return;
+            }
+            if (contactNumber.length !== 10) { showError("Your contact number must be 10 digits."); return; }
+            if (emergencyContact.length !== 10) { showError("Emergency contact must be 10 digits."); return; }
+            if (emergencyContact === contactNumber) {
+                showError("Emergency contact must be different from your own contact number."); return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Checking photo...</span>';
+
+            if (!photoCheck) photoCheck = processPhoto(fileInput.files[0]);
+            let photoData;
+            try {
+                photoData = await photoCheck;
+            } catch (err) {
+                showError(err.message);
+                resetButton();
+                return;
+            }
+
+            // Animated dots loader
+            let dotCount = 0;
+            loadingInterval = setInterval(() => {
+                dotCount = (dotCount % 3) + 1;
+                const dots = '.'.repeat(dotCount);
+                submitBtn.innerHTML = `<span>Submitting${dots}</span>`;
+            }, 500);
+
+            const payload = {
+                name,
+                empId,
+                cardType,
+                bloodGroup,
+                emergencyContact,
+                gender,
+                contactNumber,
+                data: photoData
+            };
+
+            // Add platinum-specific fields if platinum is selected
+            if (cardType === 'Platinum') {
+                payload.vehicleType = document.getElementById('vehicleType').value;
+
+                // Handle RC upload (optional)
+                const rcFile = document.getElementById('rcUpload').files[0];
+                if (rcFile) {
+                    const rcReader = new FileReader();
+                    await new Promise((resolve) => {
+                        rcReader.onload = function (rcEvent) {
+                            payload.rcData = rcEvent.target.result;
+                            resolve();
+                        };
+                        rcReader.readAsDataURL(rcFile);
+                    });
+                } else {
+                    payload.rcData = null;
+                }
+            }
+
+            // Your Google Web App URL
+            const scriptURL = "https://script.google.com/macros/s/AKfycbyHPI3j_1twq3a02QYvL9BWddZ_q5G971r49_1-T0FvEd-wta4grlyA_uslJwLCrMZJng/exec";
+
+            try {
+                const res = await fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) });
+                const result = await res.text();
+                if (result === "Success") {
+                    clearInterval(loadingInterval);
+                    const firstName = name.split(/\s+/)[0];
+                    document.getElementById('successContact').innerText =
+                        `Hey ${firstName}, thanks for submitting! You will have your ID card soon. ` +
+                        (genderChoice === 'Female'
+                            ? "In case of any issues, contact Arsh Khera (9888935962)."
+                            : "In case of any issues, contact Narendra Sharma (99712 36581).");
+                    document.getElementById('formContainer').classList.add('hidden');
+                    document.getElementById('successContainer').classList.remove('hidden');
+                } else if (result === "Duplicate") {
+                    showError("Error: Employee ID already registered.");
+                    resetButton();
+                } else if (result === "SameContact") {
+                    showError("Emergency contact must be different from your own contact number.");
+                    resetButton();
+                } else if (result === "RegularNotAllowed") {
+                    showError("You already have an existing card, you must choose Lost-Reapply.");
+                    resetButton();
+                } else if (result === "MissingFields") {
+                    showError("Some details are missing. Please refresh the page and fill in all fields.");
+                    resetButton();
+                } else if (result === "InvalidPhoto") {
+                    showError("Photo was rejected. Please re-select your photo and try again.");
+                    resetButton();
+                } else {
+                    showError("Server Error: " + result);
+                    resetButton();
+                }
+            } catch (err) {
+                showError("Network Error. Check connection.");
+                resetButton();
+            }
+        }
+
+        function showError(t) {
+            const e = document.getElementById('errorMsg');
+            e.innerText = t;
+            e.classList.remove('hidden');
+        }
+
+        function resetButton() {
+            clearInterval(loadingInterval);
+            const b = document.getElementById('submitBtn');
+            b.disabled = false;
+            b.innerHTML = '<span>Submit Registration</span>';
+        }
+    </script>
+</body>
+
+</html>
