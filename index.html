@@ -244,7 +244,7 @@
 
 
     <script>
-        const REGULAR_MIN_EMP_ID = 17500; // Employee IDs below this can't choose a Regular card
+        const REGULAR_MIN_EMP_ID = 17400; // Employee IDs below this can't choose a Regular card
 
         // Show/hide platinum fields based on card type selection
         function updatePlatinumFields() {
@@ -262,7 +262,7 @@
             if (this.value === 'Custom') custom.focus();
         });
 
-        // Older employees (ID below 17500) already have a card, so Regular is blocked and switched to Lost-Reapply
+        // Older employees (ID below 17400) already have a card, so Regular is blocked and switched to Lost-Reapply
         function isRegularBlocked(empId) {
             return empId.length === 5 && Number(empId) < REGULAR_MIN_EMP_ID;
         }
@@ -672,7 +672,7 @@
             }
 
             // Your Google Web App URL
-            const scriptURL = "https://script.google.com/macros/s/AKfycbw06DY7htfRpbt0yhqjHigjqHfj0NRXRmWsWFpjoXGnQZF-YXgsijyDvBRXx27wu5Td/exec";
+            const scriptURL = "https://script.google.com/macros/s/AKfycbykKWEYM8SXgzW1sai4jn5zlXWaJW6F_Jox3IUFB42jhqhKqOHjhRrVujNe5THPp8e7/exec";
 
             try {
                 const res = await fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) });
