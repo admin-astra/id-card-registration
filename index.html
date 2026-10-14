@@ -707,7 +707,8 @@
                     resetButton();
                 }
             } catch (err) {
-                showError("Network Error. Check connection.");
+                console.error("Submit failed:", err);
+                showError(`Network Error (${err.message}). Check your connection, turn off ad-blockers/VPN, or try mobile data, then submit again.`);
                 resetButton();
             }
         }
